@@ -13,7 +13,7 @@ x = df.drop('rating', axis=1)
 x = x.drop('Unnamed: 0', axis=1)
 y = df['rating']
 
-x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.01)
+x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.1)
 
 
 model = Sequential([
@@ -25,11 +25,18 @@ model = Sequential([
 ])
 
 
-model.compile(optimizer=Adam(learning_rate=0.001), loss='mse', metrics=['accuracy'])
+model.compile(optimizer=Adam(learning_rate=0.001), loss='mse', metrics=['mae'])
 
-history = model.fit(x_train, y_train, epochs=200, batch_size=200, validation_data=(x_test, y_test))
+history = model.fit(x_train, y_train, epochs=100, batch_size=50, validation_data=(x_test, y_test))
 
 loss, accuracy = model.evaluate(x_test, y_test)
 
-print(model.predict(x_test))
-print(y_test)
+outcome = model.predict(x_test)[0] - y_test.values[:]
+
+print(y_test.values[:])
+
+print(outcome)
+
+print(np.mean(np.abs(outcome)))
+
+print(loss, accuracy)
