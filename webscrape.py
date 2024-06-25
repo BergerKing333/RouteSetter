@@ -5,7 +5,7 @@ import numpy as np
 import pandas as pd
 
 class webscraper:
-    def __init__(self, angle = 30, numResults = 1000, showCampusOnly = False) -> None:
+    def __init__(self, angle = 30, numResults = 2000, showCampusOnly = False) -> None:
         self.angle = angle
         self.numResults = numResults
         self.showCampusOnly = showCampusOnly
