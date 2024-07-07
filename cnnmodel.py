@@ -23,35 +23,35 @@ y_train = tf.keras.utils.to_categorical(y_train, num_classes=12)
 y_test = tf.keras.utils.to_categorical(y_test_1, num_classes=12)
 
 model = models.Sequential([
-    layers.Conv2D(32, (3, 3), activation='relu', padding='same', kernel_regularizer=tf.keras.regularizers.l2(0.01), input_shape=(shape[0], shape[1], 1)),
-    layers.BatchNormalization(),
-    layers.Conv2D(32, (3, 3), activation='relu', padding='same', kernel_regularizer=tf.keras.regularizers.l2(0.01)),
-    layers.BatchNormalization(),
-    layers.MaxPooling2D((2, 2), strides=(2, 2)),
-    layers.Dropout(.4),
-
-    layers.Conv2D(64, (3, 3), activation='relu', padding='same', kernel_regularizer=tf.keras.regularizers.l2(0.01)),
-    layers.BatchNormalization(),
-    layers.Conv2D(64, (3, 3), activation='relu', padding='same', kernel_regularizer=tf.keras.regularizers.l2(0.01)),
-    layers.BatchNormalization(),
-    layers.MaxPooling2D((2, 2), strides=(2, 2)),
-    layers.Dropout(.4),
-
-    layers.Conv2D(128, (3, 3), activation='relu', padding='same', kernel_regularizer=tf.keras.regularizers.l2(0.01)),
+    layers.Conv2D(128, (3, 3), activation='relu', padding='same', kernel_regularizer=tf.keras.regularizers.l2(0.01), input_shape=(shape[0], shape[1], 1)),
     layers.BatchNormalization(),
     layers.Conv2D(128, (3, 3), activation='relu', padding='same', kernel_regularizer=tf.keras.regularizers.l2(0.01)),
     layers.BatchNormalization(),
     layers.MaxPooling2D((2, 2), strides=(2, 2)),
-    layers.Dropout(.4),
+    layers.Dropout(.7),
+
+    layers.Conv2D(256, (3, 3), activation='relu', padding='same', kernel_regularizer=tf.keras.regularizers.l2(0.01)),
+    layers.BatchNormalization(),
+    layers.Conv2D(256, (3, 3), activation='relu', padding='same', kernel_regularizer=tf.keras.regularizers.l2(0.01)),
+    layers.BatchNormalization(),
+    layers.MaxPooling2D((2, 2), strides=(2, 2)),
+    layers.Dropout(.7),
+
+    layers.Conv2D(512, (3, 3), activation='relu', padding='same', kernel_regularizer=tf.keras.regularizers.l2(0.01)),
+    layers.BatchNormalization(),
+    layers.Conv2D(512, (3, 3), activation='relu', padding='same', kernel_regularizer=tf.keras.regularizers.l2(0.01)),
+    layers.BatchNormalization(),
+    layers.MaxPooling2D((2, 2), strides=(2, 2)),
+    layers.Dropout(.7),
 
     layers.Flatten(),
 
+    layers.Dense(512, activation='relu', kernel_regularizer=tf.keras.regularizers.l2(0.01)),
+    layers.BatchNormalization(),
+    layers.Dropout(0.9),
     layers.Dense(256, activation='relu', kernel_regularizer=tf.keras.regularizers.l2(0.01)),
     layers.BatchNormalization(),
-    layers.Dropout(0.6),
-    layers.Dense(128, activation='relu', kernel_regularizer=tf.keras.regularizers.l2(0.01)),
-    layers.BatchNormalization(),
-    layers.Dropout(0.6),
+    layers.Dropout(0.9),
 
     layers.Dense(12, activation='softmax')
 ])
