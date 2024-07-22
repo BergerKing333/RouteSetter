@@ -9,12 +9,12 @@ colors = [(0, 0, 0), (0, 221, 0), (255, 255, 0), (0, 165, 255), (255, 0, 255)]
 
 def drawImg(img="base_kilter_board.png", holdArray=[], holdCoordinates=HOLDCOORDINATES, saveImg=True, name="output.png"):
     xCoords, yCoords = translateCoords(holdCoordinates)
-    if len(holdArray.shape) == 2:
+    if len(holdArray.shape) != 1:
         holdArray = holdArray.flatten()
     if img == "base_kilter_board.png":
         img = cv2.imread(img)
     for i in range(holdArray.size):
-        if int(holdArray[i]) != 0:
+        if holdArray[i] > 0:
             # cv2.circle(img, holdCoordinates[i], 25, colors[int(holdArray[i])], 5)
             try:
                 cv2.circle(img, (xCoords[i % 35], yCoords[i // 35]), 25, colors[int(holdArray[i])], 5)
@@ -63,3 +63,17 @@ def drawMultipleImages(holdArrays, holdCoordinates=HOLDCOORDINATES, saveImg=True
 
 # sh, x, y = readCSV()
 # print(sh, x.shape, y.shape)
+
+
+def normalizeData(data):
+    data = data / 4
+    data[data == 0] = -1
+    
+    return data
+    # return (data - 2) / 2
+
+def denormalizeData(data):
+    data[data == -1] = 0
+    data = data * 4
+    return np.abs(data).astype(int)
+    # return (data + 1) * 2

@@ -87,8 +87,6 @@ def train_step(images, generator, discriminator, noise_dim, batch_size):
         gen_loss = generator_loss(fake_output)
         disc_loss = discriminator_loss(real_output, fake_output)
 
-        print(f'Generator Loss: {gen_loss} \t Discriminator Loss: {disc_loss}')
-
     gradients_of_generator = gen_tape.gradient(gen_loss, generator.trainable_variables)
     gradients_of_discriminator = disc_tape.gradient(disc_loss, discriminator.trainable_variables)
 
@@ -105,15 +103,8 @@ def train(dataset, epochs):
         if (epoch + 1) % 5 == 0:
             save_generated_images(epoch, generator, noise_dim)
 
-
-def normalizeData(data):
-    return (data - 2) / 2
-
-def denormalizeData(data):
-    return (data + 1) * 2
-
 def save_generated_images(epoch, generator, noise_dim, examples=1):
-    noise = tf.random.normal([1, noise_dim])
+    noise = tf.random.normal([4, noise_dim])
     # noise = noise.reshape(None, 100)
     generated_images = generator(noise, training=False)
 
@@ -121,7 +112,7 @@ def save_generated_images(epoch, generator, noise_dim, examples=1):
 
     generated_images = denormalizeData(generated_images)
     generated_images = generated_images[:, :-1, :-1, :]
-    img = drawImg(holdArray = generated_images[0].reshape(35, 35), saveImg=True, name=f'output.png')
+    img = drawMultipleImages(holdArrays = generated_images, saveImg=True, name=f'output.png')
 
 
 generator_optimizer = tf.keras.optimizers.Adam(1e-4)
@@ -147,7 +138,8 @@ train(train_dataset, epochs)
 
 discriminator.trainable = False
 
-
+discriminator.save('discriminator')
+generator.save('generator')
 
 
 # gan = build_gan(generator, discriminator)
