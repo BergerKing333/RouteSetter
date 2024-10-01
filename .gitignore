@@ -3,6 +3,8 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+tf_gpu_env/
+
 # C extensions
 *.so
 
